@@ -1,0 +1,32 @@
+<dom-module id="merge-request-event">
+  <template>
+    <li class='list-group-item'>
+      <gitlab-project project="{{data.object_attributes.target}}"></gitlab-project>
+      <gitlab-user name="{{data.user.name}}"
+                   username="{{data.user.username}}"
+                   avatar-url="{{data.user.avatar_url}}"></gitlab-user>
+      {{getEventVerb(data)}}
+      Merge Request
+      <a href="{{data.object_attributes.url}}" target="_blank">
+        !{{event.data.object_attributes.iid}} &ndash;
+        {{data.object_attributes.title}}
+      </a>
+    </li>
+  </template>
+  <script>
+    Polymer({
+      is: "merge-request-event",
+      getEventVerb: function(data) {
+        return "Created";
+      }
+    });
+
+    Metyl.app.add(function(event, next) {
+      if(event.data.object_kind && event.data.object_kind == "merge_request") {
+        ui.renderEventItem("merge-request-event", event);
+      }
+
+      next(event);
+    })
+  </script>
+</dom-module>
