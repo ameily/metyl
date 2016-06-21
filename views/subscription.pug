@@ -1,0 +1,30 @@
+html
+  head
+    link(href="/vendor/bootstrap/dist/css/bootstrap.min.css", rel="stylesheet")
+    link(href="/vendor/polymer/polymer.html", rel="import")
+    link(href="/public/polymers/gitlab.html", rel="import")
+
+    link(href="/public/gitlab.html", rel="import")
+
+    
+
+  body
+
+    div.container-fluid
+      div.row
+        div.col-md-12
+          ul.list-group#event-list
+
+    script(src="/vendor/jquery/dist/jquery.min.js")
+    script(src="/vendor/jquery-ui/jquery-ui.min.js")
+    script(src="/vendor/bootstrap/dist/js/bootstrap.min.js")
+    script.
+      $(document).ready(function() {
+          var ele = document.createElement("gitlab-event");
+          ele.author = "meilya";
+          $("#event-list").append(ele);
+          //$li.effect('pulsate', { duration: 2000, times: 4 })
+          //- var $ele = $(window.renderGitlab()).hide();
+          //- $("#event-list").append($ele);
+          //- $ele.effect('slide', {directory: 'right'}).effect('pullsate', {duration: 5000, times: 4});
+        });

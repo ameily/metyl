@@ -1,0 +1,25 @@
+{
+  "name": "metyl",
+  "description": "",
+  "main": "app.js",
+  "authors": [
+    "Adam Meily"
+  ],
+  "license": "BSD-2-Clause",
+  "homepage": "https://github.com/ameily/metyl",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "^1.5.0",
+    "bootstrap": "^3.3.6",
+    "jquery-ui": "^1.11.4",
+    "neon-animation": "PolymerElements/neon-animation#^1.2.3"
+  }
+}

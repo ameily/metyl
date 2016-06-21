@@ -1,0 +1,25 @@
+{
+  "name": "metyl",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.14.0",
+    "pug": "^2.0.0-beta3",
+    "socket.io": "^1.4.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ameily/metyl.git"
+  },
+  "author": "Adam Meily",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/ameily/metyl/issues"
+  },
+  "homepage": "https://github.com/ameily/metyl#readme"
+}
