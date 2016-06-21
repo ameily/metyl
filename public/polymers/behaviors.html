@@ -1,0 +1,37 @@
+<link href="/vendor/neon-animation/neon-animation-runner-behavior.html" rel="import">
+<link href="/vendor/neon-animation/neon-animations.html" rel="import">
+
+<script>
+(function() {
+
+var EventListItemBehaviorImpl = {
+  properties: {
+    origin: String,
+    data: Object,
+    animationConfig: {
+      value: function() {
+        return {
+            //name: "slide-from-right-animation",
+            name: "slide-from-top-animation",
+            timing: {
+              duration: 1000
+            },
+            node: this
+        };
+      }
+    }
+  },
+
+  show: function() {
+    this.style.display = "block";
+    this.playAnimation();
+  }
+};
+
+Metyl.EventListItemBehavior = [
+  Polymer.NeonAnimationRunnerBehavior,
+  EventListItemBehaviorImpl
+];
+
+})();
+</script>
