@@ -1,4 +1,31 @@
 
+.event-item-status {
+    padding: 0 10px;
+    margin: 0;
+    display: inline-block;
+    height: 100%;
+}
+
+.event-item-status-accept {
+    background-color: #62c462;
+    color: #fff;
+}
+
+.event-item-status-reject {
+    background-color: #df8505;
+    color: #fff;
+}
+
+.event-item-status-new {
+    background-color: #5bc0de;
+    color: #fff;
+}
+
+.event-item-status-update {
+    background-color: #f89406;
+    color: #fff;
+}
+
 .status-new {
     color: #5bc0de;
     font-weight: bold;
@@ -30,4 +57,13 @@
     border-radius: 0.25em;
     padding: 5px 10px;
     display: inline-block;
+}
+
+.status-badge {
+    padding: 5px;
+    background-color: #49515a;
+    border-radius: 10px;
+    border-color: #020202;
+    border-width: 1px;
+    border-style: solid;
 }
