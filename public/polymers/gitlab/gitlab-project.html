@@ -1,0 +1,17 @@
+<dom-module id="gitlab-project">
+  <template>
+    <a href$="{{project.web_url}}" target="_blank" class='text-info'>
+      <span class='project-name'>{{project.name}}</span>
+      <img hidden$="{{!project.avatar_url}}" src$="{{project.avatar_url}}">
+    </a>
+  </template>
+
+  <script>
+    Polymer({
+      is: "gitlab-project",
+      properties: {
+        project: Object
+      }
+    })
+  </script>
+</dom-module>

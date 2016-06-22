@@ -1,29 +1,101 @@
-<dom-module id="merge-request-event">
+<dom-module id="merge-request">
+  <link href="/public/polymers/gitlab/gitlab-project.html" rel="import">
+  <link href="/public/polymers/gitlab/gitlab-user.html" rel="import">
+  <link href="/public/polymers/behaviors.html" rel="import">
+
   <template>
+    <style>
+      .list-group-item-warning a {
+        font-weight: bold;
+        text-decoration: underline;
+      }
+
+      .mr-type {
+        font-weight: bold;
+        color: #ee5f5b;
+      }
+
+      .spacer {
+        display: inline-block;
+        width: 10px;
+      }
+
+    </style>
+
     <li class='list-group-item'>
-      <gitlab-project project="{{data.object_attributes.target}}"></gitlab-project>
-      <gitlab-user name="{{data.user.name}}"
-                   username="{{data.user.username}}"
-                   avatar-url="{{data.user.avatar_url}}"></gitlab-user>
-      {{getEventVerb(data)}}
+      <span class='mr-type'>
+        <span class$="glyphicon {{icon}}"></span>
+        <span class='spacer'></span>
+        Merge Request
+      </span>
+      <span class='spacer'></span>
+      <gitlab-project project="{{mergeRequest.target}}"></gitlab-project>
+      <span class='spacer'></span>
+      <gitlab-user user="{{user}}"></gitlab-user>
+      <span class='spacer'></span>
+      <span class$="{{actionCls}}">{{action}}</span>
       Merge Request
-      <a href="{{data.object_attributes.url}}" target="_blank">
-        !{{event.data.object_attributes.iid}} &ndash;
-        {{data.object_attributes.title}}
+      <a href="{{url}}" target="_blank">
+        !{{mergeRequest.iid}} &ndash;
+        {{mergeRequest.title}}
       </a>
     </li>
   </template>
   <script>
     Polymer({
-      is: "merge-request-event",
-      getEventVerb: function(data) {
-        return "Created";
+      is: "merge-request",
+      behaviors: [
+        Metyl.EventListItemBehavior
+      ],
+
+      dataChanged: function(data) {
+        console.log("data-changed");
+
+        if(!data) {
+          return;
+        }
+
+        if(data.object_kind == "merge_request") {
+          var action = data.object_attributes.action;
+
+          this.set('mergeRequest', data.object_attributes);
+          this.set('user', data.user);
+          this.set('url', data.object_attributes.url);
+
+          if(action == "open") {
+            this.set('action', "submitted");
+            this.set('icon', 'glyphicon-file status-new');
+            this.set('actionCls', 'status-new');
+          } else if(action == "merge") {
+            this.set('action', 'merged');
+            this.set('icon', 'glyphicon-ok status-accept');
+            this.set('actionCls', 'status-accept');
+          } else if(action == "close") {
+            this.set('action', 'closed');
+            this.set('icon', 'glyphicon-ban-circle status-reject');
+            this.set('actionCls', 'status-reject');
+          } else {
+            this.set('action', 'updated');
+            this.set('icon', 'glyphicon-edit status-update');
+            this.set('actionCls', 'status-update');
+          }
+        } else if(data.object_kind == "note") {
+          this.set('action', 'commented on');
+          this.set('actionCls', 'status-update');
+          this.set('icon', 'glyphicon-comment status-update')
+          this.set('mergeRequest', data.merge_request);
+          this.set('user', data.user);
+          this.set('url', data.object_attributes.url);
+        }
       }
     });
 
-    Metyl.app.add(function(event, next) {
-      if(event.data.object_kind && event.data.object_kind == "merge_request") {
-        ui.renderEventItem("merge-request-event", event);
+    Metyl.registerMiddleware(function(event, app, next) {
+      var kind = event.data.object_kind || "";
+      if(kind == "merge_request") {
+        app.renderEventItem("merge-request", event);
+      } else if(kind == "note" && event.data.merge_request) {
+        app.renderEventItem("merge-request", event);
       }
 
       next(event);

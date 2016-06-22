@@ -7,19 +7,25 @@
 var EventListItemBehaviorImpl = {
   properties: {
     origin: String,
-    data: Object,
+    data: {
+      type: Object,
+      observer: "dataChanged"
+    },
     animationConfig: {
       value: function() {
         return {
             //name: "slide-from-right-animation",
-            name: "slide-from-top-animation",
+            name: "slide-from-right-animation",
             timing: {
-              duration: 1000
+              duration: 500
             },
             node: this
         };
       }
     }
+  },
+
+  dataChanged: function(data) {
   },
 
   show: function() {

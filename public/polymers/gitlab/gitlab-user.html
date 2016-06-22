@@ -1,0 +1,37 @@
+<dom-module id="gitlab-user">
+  <template>
+    <span>
+      <template is="dom-if" if="{{avatarUrl}}">
+        <img src="{{avatarUrl}}" class='img-circle' width='30' height='30' onerror="this.style.display = 'none'">
+      </template>
+      <abbr title$="{{name}}" class='user-name'>@{{username}}</abbr>
+    </span>
+  </template>
+
+  <script>
+    Polymer({
+      is: "gitlab-user",
+      properties: {
+        user: {
+          type: Object,
+          observer: "userChanged"
+        },
+        name: String,
+        username: String,
+        url: String,
+        avatarUrl: {
+          type: String,
+          value: null
+        }
+      },
+
+      userChanged: function(data) {
+        if(data) {
+          this.set("name", data.name);
+          this.set("username", data.username);
+          this.set("avatarUrl", data.avatar_url);
+        }
+      }
+    })
+  </script>
+</dom-module>
