@@ -13,10 +13,13 @@ app.get("/", function(req, res) {
   res.render("subscription");
 });
 
-app.post("/publish", function(req, res) {
-  console.log("Publish");
+app.post("/debug/publish", function(req, res) {
   console.log(JSON.stringify(res.body));
-  console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+  res.status(200).end();
+});
+
+app.post("/publish", function(req, res) {
+  //TODO
   res.status(200).end();
 })
 
