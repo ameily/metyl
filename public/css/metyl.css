@@ -1,0 +1,33 @@
+
+.status-new {
+    color: #5bc0de;
+    font-weight: bold;
+}
+
+.status-update {
+    color: #f89406;
+    font-weight: bold;
+}
+
+.status-reject {
+    color: #df8505;
+    font-weight: bold;
+}
+
+.status-accept {
+    color: #62c462;
+    font-weight: bold;
+}
+
+.user-name {
+    color: #c6ff00;
+    font-weight: bold;
+}
+
+.project-name {
+    background-color: #6a1b9a;
+    color: #fff;
+    border-radius: 0.25em;
+    padding: 5px 10px;
+    display: inline-block;
+}
