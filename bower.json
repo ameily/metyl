@@ -19,6 +19,7 @@
   "dependencies": {
     "polymer": "^1.5.0",
     "bootstrap": "^3.3.6",
-    "neon-animation": "PolymerElements/neon-animation#^1.2.3"
+    "neon-animation": "PolymerElements/neon-animation#^1.2.3",
+    "eventEmitter": "^5.1.0"
   }
 }
