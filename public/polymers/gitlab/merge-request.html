@@ -8,11 +8,6 @@
       .event-list-item-type.merge-request {
         color: #ee5f5b;
       }
-
-      .spacer {
-        display: inline-block;
-        width: 10px;
-      }
     </style>
 
     <li class='event-list-item'>
@@ -38,9 +33,12 @@
 
         Merge Request
         <a href="{{url}}" target="_blank">
-          !{{mergeRequest.iid}} &ndash;
           {{mergeRequest.title}}
         </a>
+        <span class='spacer'></span>
+        <span class='git-ref-name'>
+          {{mergeRequest.source_branch}} &rarr; {{mergeRequest.target_branch}}
+        </span>
       </span>
     </li>
   </template>

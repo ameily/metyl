@@ -82,6 +82,43 @@ body {
     color: #c6ff00;
 }
 
+.event-list-item-content .spacer {
+    display: inline-block;
+    width: 10px;
+}
+
+.git-commit-hash {
+    font-family: monospace;
+    display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #ffffff;
+    line-height: 1;
+    vertical-align: middle;
+    white-space: nowrap;
+    text-align: center;
+    background-color: #62c462;
+    border-radius: 10px;
+}
+
+.git-ref-name {
+    font-family: monospace;
+    display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #ffffff;
+    line-height: 1;
+    vertical-align: middle;
+    white-space: nowrap;
+    text-align: center;
+    background-color: #ee5f5b;
+    border-radius: 10px;
+}
+
 .project-name {
     background-color: #6a1b9a;
     color: #fff;

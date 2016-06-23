@@ -1,4 +1,6 @@
 <dom-module id="commit-push">
+  <link href="/public/polymers/behaviors.html" rel="import">
+
   <template>
     <style>
       .event-list-item-type.commit-push {
@@ -26,6 +28,7 @@
         <span class='glyphicon glyphicon-download-alt'></span>
       </span>
       <span class='event-list-item-content'>
+        <div>
         <span class='push-type event-list-item-type'>Push</span>
 
         <span class='spacer'></span>
@@ -43,13 +46,14 @@
         </span>
 
         <span style="font-weight: bold; color: #fff">{{data.total_commits_count}}</span>
-        commits to <span class='ref'>{{ref}}</span>
+        commits to <span class='git-ref-name'>{{ref}}</span>
 
         <span class='spacer'></span>
 
-        <span class='badge alert-success' style='font-family:monospace;'>
+        <span class='git-commit-hash'>
           {{before}} &rarr; {{after}}
         </span>
+      </div>
       </span>
     </li>
 
