@@ -19,6 +19,12 @@ body {
   border-bottom-right-radius: 20px;
 }
 
+.event-list-item-type {
+    display: inline-block;
+    font-weight: bold;
+    width: 20ch;
+}
+
 .event-list-item-status {
   display: table-cell;
   padding: 0 15px;

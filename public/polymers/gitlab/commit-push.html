@@ -1,0 +1,110 @@
+<dom-module id="commit-push">
+  <template>
+    <style>
+      .event-list-item-type.commit-push {
+        color: #74cae3;
+      }
+
+      .spacer {
+        display: inline-block;
+        width: 10px;
+      }
+
+      .event-list-item.commit-push .badge, .event-list-item.commit-push code {
+        margin-left: 5px;
+        margin-right: 5px;
+      }
+      .commit-push .commit-hash {
+        font-size: 100%;
+        font-family: monospace;
+      }
+
+      .commit-push.ref {
+        font-family: monospace;
+        color: #fff;
+      }
+    </style>
+
+    <li class='event-list-item'>
+      <span class='event-list-item-status new'>
+        <span class='glyphicon glyphicon-download-alt'></span>
+      </span>
+      <span class='event-list-item-content'>
+        <span class='push-type event-list-item-type'>Push</span>
+
+        <span class='spacer'></span>
+
+        <gitlab-project project="{{data.project}}"></gitlab-project>
+
+        <span class='spacer'></span>
+
+        <gitlab-user user="{{user}}"></gitlab-user>
+
+        <span class='spacer'></span>
+
+        <span class='status-verb new'>
+          pushed
+        </span>
+
+        <span style="font-weight: bold; color: #fff">{{data.total_commits_count}}</span>
+        commits to <span class='ref'>{{ref}}</span>
+
+        <span class='spacer'></span>
+
+        <span class='badge alert-success' style='font-family:monospace;'>
+          {{before}} &rarr; {{after}}
+        </span>
+        <!-- <span class='label label-danger commit-hash'>{{before}}</span>
+        <span style="font-size: 140%">&rarr;</span>
+        <span class='label label-success commit-hash'>{{after}}</span> -->
+      </span>
+    </li>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'commit-push',
+      behaviors: [
+        Metyl.EventListItemBehavior
+      ],
+
+      dataChanged: function(data) {
+        if(!data) {
+          return;
+        }
+
+        var email = data.user_email;
+        var userName = data.user_name;
+        var parts = data.ref.split('/');
+
+        this.set('before', data.before.substring(0, 7));
+        this.set('after', data.after.substring(0, 7));
+
+        this.set('ref', parts[parts.length-1]);
+
+        if(email) {
+          this.set('user', {
+            name: userName,
+            username: email.split('@')[0]
+          });
+        } else {
+          this.set('user', {
+            name: userName,
+            username: "<Anonymous>"
+          });
+        }
+
+        this.set('push', data)
+      }
+    });
+
+    Metyl.registerMiddleware(function(event, app, next) {
+      if(event.data.object_kind == "push") {
+        app.renderEventItem('commit-push', event);
+      }
+
+      next(event);
+    })
+  </script>
+</dom-module>
