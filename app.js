@@ -14,7 +14,7 @@ app.get("/", function(req, res) {
 });
 
 app.post("/debug/publish", function(req, res) {
-  console.log(JSON.stringify(res.body));
+  console.log(JSON.stringify(req.body));
   res.status(200).end();
 });
 
