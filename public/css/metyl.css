@@ -1,47 +1,73 @@
 
-.event-item-status {
-    padding: 0 10px;
-    margin: 0;
-    display: inline-block;
-    height: 100%;
+body {
+    background-color: #212121;
 }
 
-.event-item-status-accept {
+.event-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid #000;
+}
+
+.event-list-item {
+
+  background-color: #263238;
+  margin-bottom: 5px;
+  border: 1px solid #37474f;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.event-list-item-status {
+  display: table-cell;
+  padding: 0 15px;
+  vertical-align: middle;
+}
+
+.event-list-item-content {
+    padding: 10px 15px;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+
+.event-list-item-status.accept {
     background-color: #62c462;
     color: #fff;
 }
 
-.event-item-status-reject {
+.event-list-item-status.reject {
     background-color: #df8505;
     color: #fff;
 }
 
-.event-item-status-new {
+.event-list-item-status.new {
     background-color: #5bc0de;
     color: #fff;
 }
 
-.event-item-status-update {
+.event-list-item-status.update {
     background-color: #f89406;
     color: #fff;
 }
 
-.status-new {
+.status-verb.new {
     color: #5bc0de;
     font-weight: bold;
 }
 
-.status-update {
+.status-verb.update {
     color: #f89406;
     font-weight: bold;
 }
 
-.status-reject {
+.status-verb.reject {
     color: #df8505;
     font-weight: bold;
 }
 
-.status-accept {
+.status-verb.accept {
     color: #62c462;
     font-weight: bold;
 }

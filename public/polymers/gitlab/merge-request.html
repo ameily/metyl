@@ -19,26 +19,36 @@
         display: inline-block;
         width: 10px;
       }
-
     </style>
 
-    <li class='list-group-item'>
-      <span class='mr-type'>
-        <span class$="glyphicon {{icon}}"></span>
-        <span class='spacer'></span>
-        Merge Request
+    <li class='event-list-item'>
+      <span class$="event-list-item-status {{action.verbCls}}">
+        <span class$='glyphicon {{action.icon}}'></span>
       </span>
-      <span class='spacer'></span>
-      <gitlab-project project="{{mergeRequest.target}}"></gitlab-project>
-      <span class='spacer'></span>
-      <gitlab-user user="{{user}}"></gitlab-user>
-      <span class='spacer'></span>
-      <span class$="{{actionCls}}">{{action}}</span>
-      Merge Request
-      <a href="{{url}}" target="_blank">
-        !{{mergeRequest.iid}} &ndash;
-        {{mergeRequest.title}}
-      </a>
+
+      <span class="event-list-item-content">
+        <span class='mr-type'>
+          <span class='spacer'></span>
+          Merge Request
+        </span>
+
+        <span class='spacer'></span>
+
+        <gitlab-project project="{{mergeRequest.target}}"></gitlab-project>
+
+        <span class='spacer'></span>
+
+        <gitlab-user user="{{user}}"></gitlab-user>
+
+        <span class='spacer'></span>
+        <span class$="status-verb {{action.verbCls}}">{{action.verb}}</span>
+
+        Merge Request
+        <a href="{{url}}" target="_blank">
+          !{{mergeRequest.iid}} &ndash;
+          {{mergeRequest.title}}
+        </a>
+      </span>
     </li>
   </template>
   <script>
@@ -48,45 +58,55 @@
         Metyl.EventListItemBehavior
       ],
 
-      dataChanged: function(data) {
-        console.log("data-changed");
+      actionMap: {
+        open: {
+          verb: "opened",
+          verbCls: "new",
+          icon: "glyphicon-file"
+        },
+        merge: {
+          verb: "submitted",
+          icon: "glyphicon-ok",
+          verbCls: "accept"
+        },
+        close: {
+          verb: "closed",
+          icon: "glyphicon-ban-circle",
+          verbCls: "reject"
+        },
+        update: {
+          verb: "updated",
+          icon: "glyphicon-edit",
+          verbCls: "update"
+        },
+        comment: {
+          verb: "commented on",
+          icon: "glyphicon-comment",
+          verbCls: "update"
+        }
+      },
 
+      dataChanged: function(data) {
         if(!data) {
           return;
         }
 
+        var action;
+
         if(data.object_kind == "merge_request") {
-          var action = data.object_attributes.action;
+          action = this.actionMap[data.object_attributes.action] || this.actionMap["update"];
 
           this.set('mergeRequest', data.object_attributes);
           this.set('user', data.user);
           this.set('url', data.object_attributes.url);
-
-          if(action == "open") {
-            this.set('action', "submitted");
-            this.set('icon', 'glyphicon-file status-new');
-            this.set('actionCls', 'status-new');
-          } else if(action == "merge") {
-            this.set('action', 'merged');
-            this.set('icon', 'glyphicon-ok status-accept');
-            this.set('actionCls', 'status-accept');
-          } else if(action == "close") {
-            this.set('action', 'closed');
-            this.set('icon', 'glyphicon-ban-circle status-reject');
-            this.set('actionCls', 'status-reject');
-          } else {
-            this.set('action', 'updated');
-            this.set('icon', 'glyphicon-edit status-update');
-            this.set('actionCls', 'status-update');
-          }
         } else if(data.object_kind == "note") {
-          this.set('action', 'commented on');
-          this.set('actionCls', 'status-update');
-          this.set('icon', 'glyphicon-comment status-update')
+          action = this.actionMap.comment;
           this.set('mergeRequest', data.merge_request);
           this.set('user', data.user);
           this.set('url', data.object_attributes.url);
         }
+
+        this.set("action", action);
       }
     });
 

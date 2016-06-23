@@ -19,7 +19,7 @@ html
     div.container-fluid
       div.row
         div.col-md-12
-          ul.list-group#event-list
+          ul.event-list#event-list
 
     script(src="/vendor/jquery/dist/jquery.min.js")
     script(src="/vendor/jquery-ui/jquery-ui.min.js")
@@ -46,7 +46,7 @@ html
           } else {
             clearInterval(interval);
           }
-        }, 5000);
+        }, 1000);
 
         app.on('eventItem', function(elementName, event) {
           var element = document.createElement(elementName);
