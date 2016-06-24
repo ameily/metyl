@@ -1,0 +1,119 @@
+<dom-module id="gitlab-build">
+  <link href="/public/polymers/behaviors.html" rel="import">
+
+  <template>
+    <style>
+      .event-list-item-type.gitlab-build {
+        color: #62c462;
+      }
+    </style>
+
+    <li class='event-list-item'>
+      <span class$='event-list-item-status {{status.verbCls}}'>
+        <span class$='glyphicon {{status.icon}}'></span>
+      </span>
+      <span class='event-list-item-content'>
+        <div class='pull-right'>
+          <span class='git-commit-sha'>{{sha}}</span>
+          <span class='git-ref-name'>{{ref}}</span>
+        </div>
+
+        <span class='event-list-item-type'>
+          Build
+        </span>
+
+        <span class='spacer'></span>
+
+        <gitlab-project project="{{project}}"></gitlab-project>
+
+        <span class='spacer'></span>
+
+        <gitlab-user user="{{data.user}}"></gitlab-user>
+
+        <span class='spacer'></span>
+
+        <template is="dom-if" if="{{isPending}}">
+          <span class='status-verb new'>trigged pending</span>  Build
+        </template>
+
+        <template is="dom-if" if="{{!isPending}}">
+          Build <span class$='status-verb {{status.verbCls}}'>{{status.verb}}</span>
+        </template>
+
+
+      </span>
+    </li>
+  </template>
+
+  <script>
+    Polymer({
+      is: "gitlab-build",
+      behaviors: [
+        Metyl.EventListItemBehavior
+      ],
+
+      statusMap: {
+        pending: {
+          icon: "glyphicon-time",
+          verb: "pending",
+          verbCls: "new"
+        },
+        running: {
+          icon: "glyphicon-cog",
+          verb: "started",
+          verbCls: "update"
+        },
+        success: {
+          icon: "glyphicon-ok",
+          verb: "passed",
+          verbCls: "accept"
+        },
+        failed: {
+          icon: "glyphicon-alert",
+          verb: "failed",
+          verbCls: "reject"
+        }
+      },
+
+      dataChanged: function(data) {
+        if(!data) {
+          return;
+        }
+
+        this.set('status', this.statusMap[data.build_status] || this.statusMap.pending);
+
+        if(data.build_status == 'pending') {
+          this.set('isPending', true);
+        } else {
+          this.set('isPending', false);
+        }
+
+        // } else if(data.build_status == 'running') {
+        //   this.set('isRunning', true);
+        // } else if(data.build_status == 'success') {
+        //   this.set('hasCompleted', true);
+        // } else if(data.build_status == 'failed') {
+        //   this.set('hasCompleted', true);
+        // }
+
+        var parts = data.ref.split('/');
+        this.set('ref', parts[parts.length - 1]);
+
+        this.set("sha", data.commit.sha.substring(0, 7));
+
+        this.set('project', {
+          name: data.project_name,
+          web_url: data.repository.homepage
+        });
+      }
+    });
+
+    Metyl.registerMiddleware(function(event, app, next) {
+      if(event.data.object_kind == "build") {
+        app.renderEventItem("gitlab-build", event);
+      }
+
+      next(event);
+    });
+  </script>
+</dom-module>
