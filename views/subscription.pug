@@ -9,6 +9,8 @@ html
     link(href="/public/polymers/gitlab/commit-push.html", rel="import")
     link(href="/public/polymers/gitlab/tag-push.html", rel="import")
     link(href="/public/polymers/gitlab/gitlab-build.html", rel="import")
+    link(href="/vendor/nanoscroller/bin/css/nanoscroller.css", rel="stylesheet")
+
 
     style.
       #event-list {
@@ -33,7 +35,6 @@ html
 
       .info-row {
         margin-top: 40px;
-        margin-bottom: 40px;
       }
 
       .info-row .panel-body h2 {
@@ -52,8 +53,35 @@ html
       }
 
       #event-list {
-        overflow-y: auto;
-        padding-right: 10px;
+        //- overflow-y: auto;
+        //- padding-right: 10px;
+      }
+
+      #event-list-container {
+        //- position: relative;
+        height: 10px;
+      }
+
+      .nano .nano-pane {
+        background-color: #888;
+      }
+
+      .nano .nano-slider {
+        background-color: #111;
+      }
+
+      .nano .nano-content {
+        margin-left: 15px;
+        margin-right: 40px;
+      }
+
+      .nano .nano-pane {
+        margin-right: 20px;
+        display: block !important;
+      }
+
+      .info-row-sep {
+        border-color: #7a8288;
       }
 
   body
@@ -92,13 +120,19 @@ html
                 span.monospace 30
                 span &nbsp; events / per day
 
-      div.row
         div.col-md-12
-          ul.event-list#event-list
+          hr.info-row-sep
+
+      div.row
+        div.col-md-12#event-list-container.nano
+          div.nano-content
+            ul.event-list#event-list
 
     script(src="/vendor/jquery/dist/jquery.min.js")
     script(src="/vendor/jquery-ui/jquery-ui.min.js")
     script(src="/vendor/bootstrap/dist/js/bootstrap.min.js")
+    script(src="/vendor/nanoscroller/bin/javascripts/jquery.nanoscroller.min.js")
+    script(src="/socket.io/socket.io.js")
     script.
       var TestEvents = [
         {"object_kind":"merge_request","user":{"name":"Adam Meily","username":"meilya","avatar_url":"https://example.gitlab.lan/uploads/user/avatar/6/walter.jpg"},"project":{"name":"TestProject","description":"","web_url":"https://example.gitlab.lan/meilya/testproject","avatar_url":null,"git_ssh_url":"git@example.gitlab.lan:meilya/testproject.git","git_http_url":"https://example.gitlab.lan/meilya/testproject.git","namespace":"meilya","visibility_level":0,"path_with_namespace":"meilya/testproject","default_branch":"master","homepage":"https://example.gitlab.lan/meilya/testproject","url":"git@example.gitlab.lan:meilya/testproject.git","ssh_url":"git@example.gitlab.lan:meilya/testproject.git","http_url":"https://example.gitlab.lan/meilya/testproject.git"},"object_attributes":{"id":560,"target_branch":"master","source_branch":"branch2","source_project_id":82,"author_id":6,"assignee_id":null,"title":"updated redmine; closes #1111111","created_at":"2016-06-21 23:34:32 UTC","updated_at":"2016-06-21 23:34:32 UTC","milestone_id":null,"state":"opened","merge_status":"unchecked","target_project_id":82,"iid":10,"description":"Some original body content.","position":0,"locked_at":null,"updated_by_id":null,"merge_error":null,"merge_params":{"force_remove_source_branch":"1"},"merge_when_build_succeeds":false,"merge_user_id":null,"merge_commit_sha":null,"deleted_at":null,"source":{"name":"TestProject","description":"","web_url":"https://example.gitlab.lan/meilya/testproject","avatar_url":null,"git_ssh_url":"git@example.gitlab.lan:meilya/testproject.git","git_http_url":"https://example.gitlab.lan/meilya/testproject.git","namespace":"meilya","visibility_level":0,"path_with_namespace":"meilya/testproject","default_branch":"master","homepage":"https://example.gitlab.lan/meilya/testproject","url":"git@example.gitlab.lan:meilya/testproject.git","ssh_url":"git@example.gitlab.lan:meilya/testproject.git","http_url":"https://example.gitlab.lan/meilya/testproject.git"},"target":{"name":"TestProject","description":"","web_url":"https://example.gitlab.lan/meilya/testproject","avatar_url":null,"git_ssh_url":"git@example.gitlab.lan:meilya/testproject.git","git_http_url":"https://example.gitlab.lan/meilya/testproject.git","namespace":"meilya","visibility_level":0,"path_with_namespace":"meilya/testproject","default_branch":"master","homepage":"https://example.gitlab.lan/meilya/testproject","url":"git@example.gitlab.lan:meilya/testproject.git","ssh_url":"git@example.gitlab.lan:meilya/testproject.git","http_url":"https://example.gitlab.lan/meilya/testproject.git"},"last_commit":{"id":"5c73f27b85b0c59d41765ae8b19580fe9e430ac7","message":"updated redmine; closes #1111111\n","timestamp":"2015-03-04T10:41:14-05:00","url":"https://example.gitlab.lan/meilya/testproject/commit/5c73f27b85b0c59d41765ae8b19580fe9e430ac7","author":{"name":"Adam Meily","email":"meilya@ainfosec.com"}},"work_in_progress":false,"url":"https://example.gitlab.lan/meilya/testproject/merge_requests/10","action":"open"},"repository":{"name":"TestProject","url":"git@example.gitlab.lan:meilya/testproject.git","description":"","homepage":"https://example.gitlab.lan/meilya/testproject"}},
@@ -115,8 +149,9 @@ html
 
       function onResize() {
         var height = $(window).height();
-        var $eventList = $("#event-list");
+        var $eventList = $("#event-list-container");
         $eventList.height(height - $eventList.offset().top);
+        console.log("Height: %d", $eventList.height());
       }
 
       $(document).ready(function() {
@@ -151,4 +186,6 @@ html
         socket.on('event', function(event) {
           app.process(event);
         });
+
+        $("#event-list-container").nanoScroller({ alwaysVisible: true });
       });

@@ -97,7 +97,7 @@ body {
     width: 10px;
 }
 
-.git-commit-hash {
+.git-commit-sha {
     font-family: monospace;
     display: inline-block;
     min-width: 10px;

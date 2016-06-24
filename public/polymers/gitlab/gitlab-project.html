@@ -1,13 +1,8 @@
 <dom-module id="gitlab-project">
   <template>
-    <style>
-      .gitlab-project-link:hover, .gitlab-project-link:visited, .gitlab-project-link:active, .gitlab-project-link:link, .gitlab-project-link {
-        text-decoration: none !important;
-      }
-    </style>
     <a href$="{{project.web_url}}" target="_blank" class='gitlab-project-link'>
-      <span class='project-name'>{{project.name}}</span>
-      <img hidden$="{{!project.avatar_url}}" src$="{{project.avatar_url}}">
+      <span class='project-name'>{{name}}</span>
+      <img hidden$="{{!avatar_url}}" src$="{{avatar_url}}">
     </a>
   </template>
 
@@ -15,8 +10,31 @@
     Polymer({
       is: "gitlab-project",
       properties: {
-        project: Object
+        project: {
+          type: Object,
+          observer: "projectChanged"
+        },
+        name: String,
+        url: String,
+        avatarUrl: String
+      },
+
+      projectChanged: function(project) {
+        if(!project) {
+          return;
+        }
+
+        var name = project.name;
+        var namespaceSep = name.indexOf('/ ');
+        if(namespaceSep > 0) {
+          name = name.substring(namespaceSep + 2);
+        }
+
+        this.set('name', name);
+        this.set('url', project.web_url);
+        this.set('avatarUrl', project.avatar_url);
       }
-    })
+
+    });
   </script>
 </dom-module>

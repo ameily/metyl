@@ -27,8 +27,14 @@
 
       userChanged: function(data) {
         if(data) {
+          var username = data.username || data.email;
+          var emailSep = username.indexOf('@');
+          if(emailSep > 0) {
+            username = username.substring(0, emailSep);
+          }
+
           this.set("name", data.name);
-          this.set("username", data.username);
+          this.set("username", username);
           this.set("avatarUrl", data.avatar_url);
         }
       }
