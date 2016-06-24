@@ -16,9 +16,82 @@ html
         overflow: hidden;
       }
 
+      .header {
+        background-color: #7a8288;
+      }
+
+      .page-title {
+        color: #fff;
+        font-size: 60px;
+        text-shadow: 10px 10px 30px #8A0707;
+      }
+
+      .navbar-brand {
+        display: block;
+        text-align: center;
+      }
+
+      .info-row {
+        margin-top: 40px;
+        margin-bottom: 40px;
+      }
+
+      .info-row .panel-body h2 {
+        margin: 0;
+      }
+      .info-row .panel-body {
+        text-align: center;
+      }
+
+      .info-row .panel-title {
+        font-size: 2em;
+      }
+
+      .monospace {
+        font-family:monospace;
+      }
+
+      #event-list {
+        overflow-y: auto;
+        padding-right: 10px;
+      }
+
   body
+    nav.navbar.navbar-default
+      div.container-fluid
+        div
+          div.navbar-brand Met&yuml;l
 
     div.container-fluid
+      div.row
+        div.col-md-12
+          h1.text-center.page-title(contenteditable="true")= title
+
+      div.row.info-row
+        div.col-md-6.text-center
+          div.panel.panel-default
+            div.panel-heading
+              h1.panel-title Activity Today
+            div.panel-body
+              h2
+                span.monospace 20
+                span &nbsp; events
+              h3
+                span.monospace 01:02:34
+                span &nbsp; since last event
+
+        div.col-md-6.text-center
+          div.panel.panel-default
+            div.panel-heading
+              h1.panel-title.text-center Activity This Week
+            div.panel-body
+              h2
+                span.monospace 102
+                span &nbsp; events
+              h3
+                span.monospace 30
+                span &nbsp; events / per day
+
       div.row
         div.col-md-12
           ul.event-list#event-list
@@ -39,6 +112,12 @@ html
         {"object_kind":"build","ref":"master","tag":false,"before_sha":"5f5014cd8206de6a747ad83149a4c92967f1598f","sha":"5f5014cd8206de6a747ad83149a4c92967f1598f","build_id":992,"build_name":"job1","build_stage":"test","build_status":"success","build_started_at":"2016-06-23 19:15:32 UTC","build_finished_at":"2016-06-23 19:15:34 UTC","build_duration":2.3562357,"build_allow_failure":false,"project_id":82,"project_name":"Adam Meily / TestProject","user":{"id":6,"name":"Adam Meily","email":"meilya@ainfosec.com"},"commit":{"id":1266,"sha":"5f5014cd8206de6a747ad83149a4c92967f1598f","message":"fix build script\n","author_name":"Adam Meily","author_email":"meilya@ainfosec.com","status":"success","duration":2,"started_at":"2016-06-23 19:15:32 UTC","finished_at":"2016-06-23 19:15:34 UTC"},"repository":{"name":"TestProject","url":"git@gitlab.ais:meilya/testproject.git","description":"","homepage":"https://gitlab.ais/meilya/testproject","git_http_url":"https://gitlab.ais/meilya/testproject.git","git_ssh_url":"git@gitlab.ais:meilya/testproject.git","visibility_level":0}},
         {"object_kind":"build","ref":"master","tag":false,"before_sha":"0aa8989c23674663dc238113e0a912842cf98d15","sha":"0aa8989c23674663dc238113e0a912842cf98d15","build_id":991,"build_name":"job1","build_stage":"test","build_status":"failed","build_started_at":"2016-06-23 19:11:52 UTC","build_finished_at":"2016-06-23 19:11:54 UTC","build_duration":2.0035548,"build_allow_failure":false,"project_id":82,"project_name":"Adam Meily / TestProject","user":{"id":6,"name":"Adam Meily","email":"meilya@ainfosec.com"},"commit":{"id":1265,"sha":"0aa8989c23674663dc238113e0a912842cf98d15","message":"add stupid buildscript\n","author_name":"Adam Meily","author_email":"meilya@ainfosec.com","status":"failed","duration":2,"started_at":"2016-06-23 19:11:52 UTC","finished_at":"2016-06-23 19:11:54 UTC"},"repository":{"name":"TestProject","url":"git@gitlab.ais:meilya/testproject.git","description":"","homepage":"https://gitlab.ais/meilya/testproject","git_http_url":"https://gitlab.ais/meilya/testproject.git","git_ssh_url":"git@gitlab.ais:meilya/testproject.git","visibility_level":0}}
       ];
+
+      function onResize() {
+        var height = $(window).height();
+        var $eventList = $("#event-list");
+        $eventList.height(height - $eventList.offset().top);
+      }
 
       $(document).ready(function() {
         var app = new Metyl.Application();
@@ -63,5 +142,13 @@ html
 
           $("#event-list").prepend(element);
           element.show();
+        });
+
+        $(window).resize(onResize);
+        onResize();
+
+        var socket = io('/#{namespace}');
+        socket.on('event', function(event) {
+          app.process(event);
         });
       });
