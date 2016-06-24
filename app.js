@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-var io = require('socket.io')(app);
+var io = require('socket.io')();
 
 app.set("views", __dirname + "/views");
 app.set("view engine", "pug");
@@ -39,8 +39,9 @@ app.post("/publish/:room", function(req, res) {
   });
 
   res.status(200).end();
-})
+});
 
-app.listen(3000, "0.0.0.0", function() {
+var server = app.listen(3000, "0.0.0.0", function() {
   console.log("Running app");
+  io.attach(server);
 });
