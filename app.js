@@ -15,8 +15,6 @@ var redis = require('redis').createClient({
   host: "192.168.100.12"
 });
 
-//TODO remove me
-redis.ltrim("metasponse", 1, 0);
 
 
 function getRoomTitle(room) {
