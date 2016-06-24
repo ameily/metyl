@@ -6,21 +6,6 @@
       .event-list-item-type.commit-push {
         color: #74cae3;
       }
-
-      .spacer {
-        display: inline-block;
-        width: 10px;
-      }
-
-      .event-list-item.commit-push .badge, .event-list-item.commit-push code {
-        margin-left: 5px;
-        margin-right: 5px;
-      }
-
-      .commit-push.ref {
-        font-family: monospace;
-        color: #fff;
-      }
     </style>
 
     <li class='event-list-item'>
@@ -28,7 +13,13 @@
         <span class='glyphicon glyphicon-download-alt'></span>
       </span>
       <span class='event-list-item-content'>
-        <div>
+        <div class='pull-right'>
+          <span class='git-commit-hash'>
+            {{before}} &rarr; {{after}}
+          </span>
+          <span class='git-ref-name'>{{ref}}</span>
+        </div>
+
         <span class='push-type event-list-item-type'>Push</span>
 
         <span class='spacer'></span>
@@ -46,14 +37,8 @@
         </span>
 
         <span style="font-weight: bold; color: #fff">{{data.total_commits_count}}</span>
-        commits to <span class='git-ref-name'>{{ref}}</span>
+        commits
 
-        <span class='spacer'></span>
-
-        <span class='git-commit-hash'>
-          {{before}} &rarr; {{after}}
-        </span>
-      </div>
       </span>
     </li>
 

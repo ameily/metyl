@@ -7,16 +7,24 @@ body {
   list-style: none;
   margin: 0;
   padding: 0;
-  border-top: 1px solid #000;
 }
 
 .event-list-item {
-
   background-color: #263238;
   margin-bottom: 5px;
   border: 1px solid #37474f;
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
+}
+
+.event-list-item a, .event-list-item a:link, .event-list-item a:visited {
+    color: #dce775;
+    text-decoration: none;
+}
+
+.event-list-item a:hover, .event-list-item a:active {
+    color: #f0f4c3;
+    text-decoration: none;
 }
 
 .event-list-item-type {
@@ -35,6 +43,8 @@ body {
     padding: 10px 15px;
     display: table-cell;
     vertical-align: middle;
+    color: #fff;
+    width: 100%;
 }
 
 
@@ -44,7 +54,7 @@ body {
 }
 
 .event-list-item-status.reject {
-    background-color: #df8505;
+    background-color: #ee5f5b;
     color: #fff;
 }
 
@@ -69,7 +79,7 @@ body {
 }
 
 .status-verb.reject {
-    color: #df8505;
+    color: #ee5f5b;
     font-weight: bold;
 }
 
@@ -99,8 +109,9 @@ body {
     vertical-align: middle;
     white-space: nowrap;
     text-align: center;
-    background-color: #62c462;
+    background-color: #0277bd;
     border-radius: 10px;
+    /*303f9f */
 }
 
 .git-ref-name {
@@ -115,7 +126,7 @@ body {
     vertical-align: middle;
     white-space: nowrap;
     text-align: center;
-    background-color: #ee5f5b;
+    background-color: #009688;
     border-radius: 10px;
 }
 

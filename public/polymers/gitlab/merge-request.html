@@ -16,6 +16,10 @@
       </span>
 
       <span class="event-list-item-content">
+        <span class='git-ref-name pull-right'>
+          {{mergeRequest.source_branch}} &rarr; {{mergeRequest.target_branch}}
+        </span>
+
         <span class='event-list-item-type'>
           Merge Request
         </span>
@@ -32,13 +36,8 @@
         <span class$="status-verb {{action.verbCls}}">{{action.verb}}</span>
 
         Merge Request
-        <a href="{{url}}" target="_blank">
-          {{mergeRequest.title}}
-        </a>
-        <span class='spacer'></span>
-        <span class='git-ref-name'>
-          {{mergeRequest.source_branch}} &rarr; {{mergeRequest.target_branch}}
-        </span>
+        <a href="{{url}}" target="_blank">{{mergeRequest.title}}</a>
+
       </span>
     </li>
   </template>
