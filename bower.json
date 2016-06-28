@@ -20,6 +20,9 @@
     "polymer": "^1.5.0",
     "bootstrap": "^3.3.6",
     "neon-animation": "PolymerElements/neon-animation#^1.2.3",
-    "eventEmitter": "^5.1.0"
+    "eventEmitter": "^5.1.0",
+    "moment": "^2.13.0",
+    "numeral": "^1.5.3",
+    "nanoscroller": "^0.8.7"
   }
 }
