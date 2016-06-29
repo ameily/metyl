@@ -158,20 +158,20 @@ Metyl.Subscription.prototype.loadBacklog = function(callback) {
       // Process each event in the backlog.
       data.events.forEach(function(event) {
         self.process(event);
-        last = event.moment;
+        last = event.timestamp;
       });
 
       // Process each event that we received while processing the backlog.
       self.pending.forEach(function(event) {
         self.process(event);
-        last = event.moment;
+        last = event.timestamp;
       });
 
       // Update statistics
       self.stats.week = data.stats.week;
       self.stats.today = data.stats.today;
       if(last) {
-        self.stats.inactiveTime = moment().diff(last).asSeconds();
+        self.stats.inactiveTime = moment().diff(moment.unix(last)) / 1000.0;
       }
 
       // Clear the pending events because we've already processed them.
