@@ -1,0 +1,46 @@
+html
+  head
+    link(href="/vendor/bootstrap/dist/css/bootstrap.min-slate.css", rel="stylesheet")
+    link(href="/public/css/metyl.css", rel="stylesheet")
+
+  body
+    nav.navbar.navbar-default
+      div.container-fluid
+        div
+          div.navbar-brand Met&yuml;l
+
+    div.container-fluid
+      div.row
+        div.col-md-12
+          h1.text-center.page-title Met&yuml;l
+
+      div.row
+        div.col-md-12
+          h2.text-center Subscribe
+          input.form-control.typeahead#room-name(type='text', placeholder="Room Name")
+
+
+    script(src="/vendor/jquery/dist/jquery.min.js")
+    script(src="/vendor/bootstrap/dist/js/bootstrap.min.js")
+    script(src="/vendor/typeahead/dist/typeahead.jquery.min.js")
+    script.
+      $(document).ready(function() {
+        $.ajax("/rooms.json", {
+          success: function(data) {
+            $("#room-name").typeahead({
+              hint: true,
+              highlight: true,
+              minLength: 1
+            }, {
+              name: "rooms",
+              source: function(input, cb) {
+                var q = input.toLowerCase();
+                var matches = data.rooms.filter(function(room) {
+                  return room.toLowerCase().substring(0, q.length) == q;
+                });
+                cb(matches);
+              }
+            })
+          }
+        });
+      });
