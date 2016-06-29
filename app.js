@@ -74,6 +74,10 @@ function getBacklog(room, callback) {
   });
 }
 
+app.get('/', function(req, res) {
+  res.render('home');
+})
+
 
 /**
  * Load the subscription view.
@@ -132,7 +136,9 @@ app.post("/publish/:room", function(req, res) {
 });
 
 app.get("/rooms.json", function(req, res) {
+  console.log("rooms.json");
   redis.smembers('metyl.roomNames', function(err, rooms) {
+    console.log('rooms: %d', rooms.length);
     res.status(200).json({
       rooms: rooms || []
     });
