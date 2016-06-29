@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 
 
 var redis = require('redis').createClient({
-  host: "127.0.0.1"
+  host: "192.168.100.12"
 });
 
 
@@ -61,11 +61,11 @@ function getBacklog(room, callback) {
 
     // Get the number of events that happened today
     redis.get(keys.todayCount, function(err, todayCount) {
-      ret.stats.today = todayCount || 0;
+      ret.stats.today = parseInt(todayCount) || 0;
 
       // Get the number of events that happened this week
       redis.get(keys.weekCount, function(err, weekCount) {
-        ret.stats.week = weekCount || 0;
+        ret.stats.week = parseInt(weekCount) || 0;
 
         // We got everything, return the backlog and statistics
         callback(null, ret);
