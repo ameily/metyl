@@ -12,6 +12,7 @@ app.use("/vendor", express.static(__dirname + "/bower_components"));
 
 app.use(bodyParser.json());
 
+
 var redis = require('redis').createClient({
   host: "127.0.0.1"
 });
@@ -121,6 +122,8 @@ app.post("/publish/:room", function(req, res) {
   redis.incr(keys.todayCount);
   // Increment the number of events that happened this week
   redis.incr(keys.weekCount);
+  // Make sure the room names are up to date
+  redis.sadd('metyl.roomNames', req.params.room);
 
   // Distribute the event to all our clients
   io.in(req.params.room).emit('data', event);
@@ -128,14 +131,23 @@ app.post("/publish/:room", function(req, res) {
   res.status(200).end();
 });
 
+app.get("/rooms.json", function(req, res) {
+  redis.smembers('metyl.roomNames', function(err, rooms) {
+    res.status(200).json({
+      rooms: rooms || []
+    });
+  });
+});
+
 
 io.on('connect', function(socket) {
   socket.on('join', function(room) {
+    redis.sadd('metyl.roomNames', room);
     socket.join(room);
   }).on('leave', function(room) {
     socket.leave(room);
   });
-})
+});
 
 var server = app.listen(3000, "0.0.0.0", function() {
   console.log("Running app");
